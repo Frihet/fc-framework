@@ -38,15 +38,16 @@ function installCheckFields() {
     return ok;
 }
 
-
 function installDbCheck() {
-    var url = 'index.php?action=db_check&dsn=' + encodeURIComponent($('#dsn')[0].value);
-    $.get(url, null, function(response) {
-	    $('#db_notification')[0].innerHTML = response;
-	}
-	,'text');
+    for (var i=0; i<InstallData.dsn.length; i++) {
+	var dsn_name = InstallData.dsn[i];
+	var url = 'index.php?action=db_check&dsn_name='+encodeURIComponent(dsn_name)+'&dsn_value=' + encodeURIComponent($('#dsn_'+dsn_name)[0].value);
+	$.getJSON(url, null, function(response) {
+		$('#dsn_'+response.dsn+'_notification')[0].innerHTML = response.status;
+	    }
+	    ,'text');
+    }
 }
-
 
 
 /*************************************************************

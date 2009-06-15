@@ -16,7 +16,7 @@ class checks{
 }
 
 
-class InstallApp
+class InstallApplication
 extends Application
 {
 
@@ -36,6 +36,12 @@ extends Application
     {
         return "";
     }
+
+    function getDsn()
+    {
+        return array('default');
+    }
+    
     
     function view()
     {
@@ -47,8 +53,8 @@ extends Application
         if (count($dep)) {
             $dep_str = "<p>The following problems have been detected with your server setup.: </p><p>" . implode("</p><p>", $dep) ." </p>";
         }
-
-?>
+        
+        ?>
 <div class='content_install'>
 <div class='content_install_inner'>
 <h2>Install software</h2>
@@ -62,24 +68,53 @@ This application has not been installed. Please fill out the following form to i
 <table class='striped'>
 	<thead>
 		<tr>
-			<th colspan="2">Database Details</th>
+			<th colspan="3">Database Details</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-   <td align="right"><label for="dsn">DSN</label></td>
-			<td align="left"><input type="text" id="dsn" name="dsn"
-				size="80" class="required"
-				value="<?= param('dsn',"pgsql:dbname=DATABASE;host=localhost;user=USERNAME;password=PASSWORD"); ?>"> <span
-				class="error" id="dsn_error"></span></td>
-		</tr>
+        <?php
+        foreach ($this->getDsn() as $dsn) {
+
+            $dsn_name = htmlEncode($dsn);
+            
+            $dsn_value = htmlEncode(param("dsn_$dsn","pgsql:dbname=DATABASE;host=localhost;user=USERNAME;password=PASSWORD"));
+            
+
+            echo "
+ 
+<tr>
+  <td align='right'><label for='dsn_{$dsn_name}'>$dsn_name DSN</label></td>
+  <td align='left'>
+    <input type='text' id='dsn_{$dsn_name}' name='dsn_{$dsn_name}'
+				size='80' class='required'
+				value='$dsn_value'> 
+  </td>
+  <td>
+    <span id='dsn_{$dsn_name}_notification'>".htmlEncode(param("dsn_{$dsn}_error"))."</span>
+  </td>
+</tr>
+";
+        }
+
+        // We do not use json_encode here, because we do not want the installer to have dependencies
+        echo "
+<script>
+var InstallData = 
+{
+    dsn:['" . implode("', '", $this->getDsn()) . "']
+};
+</script>
+";
+        
+
+?>
+
         </tbody>
 </table>
 
 <div class='button_list'>
 <p>
 <button type='button' onclick='installDbCheck();'>Test database...</button>
-<span id='db_notification'><?= param('db_notification','');?></span>
 </p>
 <p>
 <button>Install!</button>
@@ -99,11 +134,13 @@ stripe();
 
     function db_check()
     {
-        if (!db::init(param('dsn',''))) {
-            echo  "<span class='error'>" . db::getError()."</span>";
+        // We do not use json_encode here, because we do not want the installer to have dependencies
+        if (!db::init(param('dsn_value',''))) {
+            $res =  "<span class='error'>" . htmlEncode(db::getError())."</span>";
         } else {
-            echo "Database details ok!";
+            $res =  "Database details ok!";
         }
+        echo "{dsn:'".addSlashes(param('dsn_name'))."', status:'".addSlashes($res)."'}";
     }
 
     function install() 
@@ -116,11 +153,14 @@ stripe();
             $ok = false;
         }
         else {
-            
-            if (!db::init(param('dsn',''))) {
-                $_REQUEST['db_notification'] = "<span class='error'>" . db::getError()."</span>";
-                $ok = false;
+
+            foreach ($this->getDsn() as $dsn) {
+                
+                if (!db::init(param('dsn_'.$dsn,''))) {
+                    $ok = false;
+                }
             }
+            
         }
         
         if (!$ok) {
@@ -129,14 +169,24 @@ stripe();
         }
         
         $this->writeHeader("install","");
+
+        echo "
+<div class='content_install'>
+<div class='content_install_inner'>
+";
+      
+
         
         foreach( explode(';', file_get_contents('./static/schema.sql')) as $sql) {
             db::query($sql);
         }
 
-        $config = "<?php
-define('DB_DSN', '".addSlashes(param('dsn',''))."');
-?>";
+        $config = "<?php\n";
+        foreach ($this->getDsn() as $dsn) {
+            $config .= "define('FC_DSN_".strtoupper($dsn)."', '".addSlashes(param('dsn_'.$dsn))."');\n";
+        }
+        
+        $config .= "?>";
         
         $write_ok = @file_put_contents("./config.php", $config);
         
@@ -161,8 +211,6 @@ define('DB_DSN', '".addSlashes(param('dsn',''))."');
             
             echo "</pre>";
             
-            $this->writeFooter();
-
             $ok = false;
             
         }
@@ -170,6 +218,14 @@ define('DB_DSN', '".addSlashes(param('dsn',''))."');
         if ($ok) {
             echo "<h2>Success!</h2>The installation is complete. Click <a href=''>here</a> to start using the application.";
         }
+
+        echo "
+</div>
+</div>
+";
+        
+        $this->writeFooter();
+
         
     }
     
@@ -199,7 +255,7 @@ define('DB_DSN', '".addSlashes(param('dsn',''))."');
 
 }
 
-$cmdb = new InstallApp();
-$cmdb->main();
+include "install.php";
+
 
 ?>

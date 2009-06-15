@@ -203,7 +203,7 @@ skin : "fc"*/
     
 }
 
-if(!db::init(DB_DSN)) {
+if(!db::init(FC_DSN_DEFAULT)) {
     //FreeCMDB::writeMessages();
     die("The site is down. Could not connect to the database.");
 }
