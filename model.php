@@ -2,7 +2,17 @@
 
 class dbItem
 {
-
+    /*
+    function __construct($param=null) 
+    {
+        if ((int)$param == $param) {
+            $this->load($param);
+        }
+        else if (is_array($param)) {
+                $this->initFromArray($param);
+        }
+    }
+    */
     /**
      * Returns an array of all public properties of this object
      * type. By convention, this is exactly the same as the list of
@@ -51,7 +61,61 @@ class dbItem
         
         return $res;
     }
+
+    function saveInternal($key='id') 
+    {
+        $prop = $this->getPublicProperties();
+        $param_name=array();
+        $param=array();
+        $idx = 1;
         
+        if ($key !== null && $this->$key !== null) {
+
+            foreach($prop as $p) {
+                if ($p != $key) {
+                    $nam = ":prop" . $idx;
+                    $param_name[] = "$p = $nam";
+                    $param[$nam] = $this->$p;
+                    $idx++;
+                }
+            }
+            
+            $query = "update ".$this->table." set ".implode(', ', $param_name). " where $key = :key";
+            $param[':key'] = $this->$key;
+        }
+        else {
+            $param_def = array();
+            
+            foreach($prop as $p) {
+                if($key !== null && $p == $key) {
+                    continue;
+                }
+                $param_def[] = $p;
+                $nam = ":prop" . $idx;
+                $param_name[] = $nam;
+                $idx++;
+                $param[$nam] = $this->$p;
+            }
+            $query = "insert into ".$this->table." (" . implode(', ', $param_def) . ") values (" . implode(', ', $param_name).")";
+        }
+        return db::query($query, $param);
+    }
+
+    function removeInternal($key='id') 
+    {
+        return db::query("delete from ".$this->table." where $key = :key", array(':key'=>$this->$key));    }
+
+    function load($key_value, $key='id') 
+    {
+        $data = db::fetchRow("
+select *
+from ".$this->table."
+where $key = :value", array(":value"=>$key_value));
+        $this->initFromArray($data);
+        
+    }
+    
+            
 }
 
 ?>

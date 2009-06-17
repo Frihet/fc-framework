@@ -108,11 +108,19 @@ class form
         
     }
     
+    function makeButton($content, $name, $value, $type='submit', $id=null, $class=null) 
+    {
+            $id_str = $id?'id="'.htmlEncode($id).'"':'';
+            $class_str = $class?'class="'.htmlEncode($class).'"':'';
+            return "<button $id_str $class_str name='".htmlEncode($name)."' value='".htmlEncode($value)."' type='".htmlEncode($type)."'>".$content."</button>";		
+    }
+    
+
     function makeText($name, $value, $id=null, $class=null) 
 	{
             $id_str = $id?'id="'.htmlEncode($id).'"':'';
             $class_str = $class?'class="'.htmlEncode($class).'"':'';
-            return "<input $id_str $class_str size='32' name='".htmlEncode($name)."' value='".htmlEncode($value)."'>\n";		
+            return "<input $id_str $class_str size='32' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
 	}
     
     function makeCheckbox($name, $value, $description, $id=null) 
