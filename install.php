@@ -153,14 +153,12 @@ stripe();
             $ok = false;
         }
         else {
-
             foreach ($this->getDsn() as $dsn) {
                 
                 if (!db::init(param('dsn_'.$dsn,''))) {
                     $ok = false;
                 }
             }
-            
         }
         
         if (!$ok) {
@@ -175,8 +173,7 @@ stripe();
 <div class='content_install_inner'>
 ";
       
-
-        
+        db::init(param('dsn_default'));
         foreach( explode(';', file_get_contents('./static/schema.sql')) as $sql) {
             db::query($sql);
         }
