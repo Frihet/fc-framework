@@ -1,5 +1,10 @@
 #! /usr/bin/env php 
 <?php
+
+function error($err) {
+	 echo $err;
+	 exit(1);
+}
 require_once("config.php");
 require_once("common/util/db.php"); 
 
