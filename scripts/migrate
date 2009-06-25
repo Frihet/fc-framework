@@ -13,7 +13,7 @@ if($dsn === null) {
 	error("DSN not set");
 }
 if(!db::init($dsn)) die("Could not set up database");
-foreach(explode(';',readfile("php://stdin")) as $sql) {
+foreach(explode(';', file_get_contents('php://stdin')) as $sql) {
     if(!db::query($sql)) die("Error in query $sql");
 }
 
