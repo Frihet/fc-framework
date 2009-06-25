@@ -12,7 +12,7 @@ $dsn = defined('FC_DSN_DEFAULT')?FC_DSN_DEFAULT:(defined('DB_DSN')?DB_DSN:null);
 if($dsn === null) {
 	error("DSN not set");
 }
-if(!db::init(FC_DSN_DEFAULT)) die("Could not set up database");
+if(!db::init($dsn)) die("Could not set up database");
 foreach(explode(';',readfile("php://stdin")) as $sql) {
     if(!db::query($sql)) die("Error in query $sql");
 }
