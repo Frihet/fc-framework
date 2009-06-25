@@ -48,15 +48,18 @@ class Application
 {
 
     var $scripts = array("common/static/jquery.js",
-                         "common/static/date.js",
-                         "common/static/jquery.datePicker.js",
                          "common/static/common.js",
                          "common/static/tiny_mce/tiny_mce.js");
-
+    
     var $styles = array(array('name'=>'common/static/common.css', 
-                              'media'=>"screen,projection"),
-                        array('name'=>'common/static/datePicker.css', 
                               'media'=>"screen,projection"));
+    
+    function enableDatePicker()
+    {
+        $this->addScript("common/static/jquery.datePicker.js");
+        $this->addScript("common/static/date.js");
+        $this->addStyle ('common/static/datePicker.css');
+    }
         
     /*
      Write http heades, html headers and the top menu
@@ -80,16 +83,19 @@ class Application
 ';
         }
         
-        echo '<title>'.htmlEncode($title).'</title>
+        echo '<title>'.htmlEncode($title).'</title>';
+        /*
+        echo '
 <script type="text/javascript">
+
 tinyMCE.init({
 mode : "specific_textareas",
 editor_selector : "rich_edit",
 theme : "simple"
-/*,
-skin : "fc"*/
 });
-</script>
+</script>';
+*/
+        echo '
         </head>
         <body>
 
@@ -175,7 +181,7 @@ skin : "fc"*/
             util::loadClass($controller_str);
             
             if(class_exists($controller_str)) {
-                $controller = new $controller_str();
+                $controller = new $controller_str($this);
                 $controller->run();
             } else {
                 header("Status: 404");

@@ -1,0 +1,11 @@
+#! /usr/bin/env php 
+<?php
+require_once("config.php");
+require_once("common/util/db.php"); 
+
+if(!db::init(FC_DSN_DEFAULT)) die("Could not set up database");
+foreach(explode(';',readfile("php://stdin")) as $sql) {
+    if(!db::query($sql)) die("Error in query $sql");
+}
+
+?>

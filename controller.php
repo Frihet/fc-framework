@@ -17,7 +17,18 @@ class Controller
 {
 
     private $extra_content=array();
-
+    private $application;
+    
+    function __contruct($app) 
+    {
+        $this->application = $app;
+    }
+    
+    function getApplication()
+    {
+        return $this->application;
+    }
+    
     /** Check the task param and try to run the corresponding
      function, if it exists. Gives an error otherwise.
     */
