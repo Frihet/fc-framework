@@ -2,12 +2,16 @@
 <?php
 
 function error($err) {
-	 echo $err;
+	 echo $err, "\n";
 	 exit(1);
 }
 require_once("config.php");
 require_once("common/util/db.php"); 
 
+$dsn = defined('FC_DSN_DEFAULT')?FC_DSN_DEFAULT:(defined('DB_DSN')?DB_DSN:null);
+if($dsn === null) {
+	error("DSN not set");
+}
 if(!db::init(FC_DSN_DEFAULT)) die("Could not set up database");
 foreach(explode(';',readfile("php://stdin")) as $sql) {
     if(!db::query($sql)) die("Error in query $sql");
