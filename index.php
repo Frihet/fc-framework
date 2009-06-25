@@ -49,6 +49,7 @@ class Application
 
     var $scripts = array("common/static/jquery.js",
                          "common/static/common.js",
+                         "common/static/date.js",
                          "common/static/tiny_mce/tiny_mce.js");
     
     var $styles = array(array('name'=>'common/static/common.css', 
@@ -57,7 +58,6 @@ class Application
     function enableDatePicker()
     {
         $this->addScript("common/static/jquery.datePicker.js");
-        $this->addScript("common/static/date.js");
         $this->addStyle ('common/static/datePicker.css');
     }
         
