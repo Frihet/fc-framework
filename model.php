@@ -2,17 +2,21 @@
 
 class dbItem
 {
-    /*
+
     function __construct($param=null) 
     {
+        if($param === null) {
+            return;
+        }
+        
         if ((int)$param == $param) {
             $this->load($param);
         }
         else if (is_array($param)) {
-                $this->initFromArray($param);
+            $this->initFromArray($param);
         }
     }
-    */
+
     /**
      * Returns an array of all public properties of this object
      * type. By convention, this is exactly the same as the list of
@@ -62,6 +66,20 @@ class dbItem
         return $res;
     }
 
+    function findAll($class_name, $table_name) 
+    {
+        $res=array();
+        foreach(db::fetchList("select * from $table_name") as $row) {
+            $res[] = new $class_name($row);
+        }
+        return $res;
+    }
+
+    function save($key='id') 
+    {
+        $this->saveInternal($key);
+    }
+    
     function saveInternal($key='id') 
     {
         $prop = $this->getPublicProperties();
@@ -70,18 +88,24 @@ class dbItem
         $idx = 1;
         
         if ($key !== null && $this->$key !== null) {
-
+                        
             foreach($prop as $p) {
                 if ($p != $key) {
-                    $nam = ":prop" . $idx;
-                    $param_name[] = "$p = $nam";
-                    $param[$nam] = $this->$p;
-                    $idx++;
+                    if($this->$p === null) {
+                        $param_name[] = "$p = null";
+                    } else {
+                        $nam = ":prop" . $idx;
+                        $param_name[] = "$p = $nam";
+                        $param[$nam] = $this->$p;
+                        $idx++;
+                    }
                 }
+                
             }
             
             $query = "update ".$this->table." set ".implode(', ', $param_name). " where $key = :key";
             $param[':key'] = $this->$key;
+            return db::query($query, $param);
         }
         else {
             $param_def = array();
@@ -90,15 +114,24 @@ class dbItem
                 if($key !== null && $p == $key) {
                     continue;
                 }
-                $param_def[] = $p;
-                $nam = ":prop" . $idx;
-                $param_name[] = $nam;
-                $idx++;
-                $param[$nam] = $this->$p;
+                if($this->$p === null) {
+                    $param_def[] = $p;
+                    $param_name[] = "null";
+                } else {
+                    $param_def[] = $p;
+                    $nam = ":prop" . $idx;
+                    $param_name[] = $nam;
+                    $idx++;
+                    $param[$nam] = $this->$p;
+                }
             }
+            
             $query = "insert into ".$this->table." (" . implode(', ', $param_def) . ") values (" . implode(', ', $param_name).")";
+            $res = db::query($query, $param);
+            if($res)
+                $this->$key = db::lastInsertId($this->table . "_" . $key . "_seq");
+            return $res;
         }
-        return db::query($query, $param);
     }
 
     function removeInternal($key='id') 
@@ -106,13 +139,11 @@ class dbItem
         return db::query("delete from ".$this->table." where $key = :key", array(':key'=>$this->$key));    }
 
     function load($key_value, $key='id') 
-    {
-        $data = db::fetchRow("
+    {        
+        $this->initFromArray(db::fetchRow("
 select *
 from ".$this->table."
-where $key = :value", array(":value"=>$key_value));
-        $this->initFromArray($data);
-        
+where $key = :value", array(":value"=>$key_value)));
     }
     
             
