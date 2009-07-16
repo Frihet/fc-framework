@@ -32,7 +32,6 @@ require_once("common/util/util.php");
 require_once("common/util/db.php");
 require_once("common/install.php");
 
-require_once("config.php");
 require_once("common/util/plugin.php");
 require_once("common/model.php");
 require_once("common/util/form.php");
@@ -49,11 +48,13 @@ class Application
 
     var $scripts = array("common/static/jquery.js",
                          "common/static/common.js",
-                         "common/static/date.js",
-                         "common/static/tiny_mce/tiny_mce.js");
+                         "common/static/date.js");
     
     var $styles = array(array('name'=>'common/static/common.css', 
                               'media'=>"screen,projection"));
+
+    var $use_tiny_mce;
+    
     
     function enableDatePicker()
     {
@@ -61,8 +62,14 @@ class Application
         $this->addStyle ('common/static/datePicker.css');
     }
         
+    function enableTinyMce()
+    {
+        $this->use_tiny_mce = true;
+        $this->addScript("common/static/tiny_mce/tiny_mce.js");
+    }
+        
     /*
-     Write http heades, html headers and the top menu
+     Write http headers, html headers and the top menu
      */
     function writeHeader($title, $controller)
     {
@@ -75,17 +82,18 @@ class Application
                 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 ';
         foreach($this->styles as $s) {
-            echo '<link rel="stylesheet" href="'.htmlEncode($s['name']).'" type="text/css" media="'.$s['media'].'" />
+            echo '<link rel="stylesheet" href="'.util::getPath().htmlEncode($s['name']).'" type="text/css" media="'.$s['media'].'" />
 ';
         }
         foreach($this->scripts as $s) {
-            echo '<script type="text/javascript" src="'.htmlEncode($s).'"></script>
+            echo '<script type="text/javascript" src="'.util::getPath().htmlEncode($s).'"></script>
 ';
         }
         
         echo '<title>'.htmlEncode($title).'</title>';
-        /*
-        echo '
+        if ($this->use_tiny_mce) {
+            
+            echo '
 <script type="text/javascript">
 
 tinyMCE.init({
@@ -94,7 +102,8 @@ editor_selector : "rich_edit",
 theme : "simple"
 });
 </script>';
-*/
+        }
+        
         echo '
         </head>
         <body>
