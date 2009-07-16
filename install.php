@@ -1,4 +1,5 @@
 <?php
+    
 
   /**
    Protection against bad includes.
@@ -9,9 +10,16 @@ if (!defined("IS_MAIN_PAGE")) {
 
 define('CONFIG_FILE_PATH', 'config.php');
 
-class checks{
+class Checks{
     function configFileExists(){
-        return file_exists(CONFIG_FILE_PATH);
+        $fe = file_exists(CONFIG_FILE_PATH);
+        if ($fe) {
+            require_once("config.php");
+            if(defined('FC_DSN_DEFAULT')) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -229,7 +237,7 @@ stripe();
 
     function main() 
     {
-        if (!checks::configFileExists()) {
+        if (!Checks::configFileExists()) {
             $action = param('action','view');
               
             switch ($action) {
