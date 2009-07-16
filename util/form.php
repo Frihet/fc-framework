@@ -132,7 +132,7 @@ class form
             $checked = 'checked="yes"';
         }
         
-        return "<input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='1' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
+        return "<input type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
     }
     
     function makeInput($name, $value, $column_id, $read_only=false, $id=null) 
