@@ -6,17 +6,36 @@ class util
 	static $ci_html_title="";
 	static $message_str="";
         static $redirect = false;
+        static $path = "";
         
+        function getPath()
+        {
+            return self::$path;
+        }
+
         function loadClass($name) 
         {
             
+            $dirs = array();
+            if(param('plugin') !== null) {
+                $dirs[] = 'plugins/'.param('plugin');
+            }
+            $dirs[] = ".";
+
             if(class_exists($name)) {
                 return;
             }
             
-            if(strcasecmp(substr($name, strlen($name)-strlen("controller")),"controller" )==0) {
-                include_once("controllers/{$name}.php");
-                return;
+            foreach(array('controller','view') as $type) {
+                if(strcasecmp(substr($name, strlen($name)-strlen($type)),$type )==0) {
+                    foreach($dirs as $dir) {
+                        $path = $dir . "/{$type}s/{$name}.php";
+                        if(file_exists($path)) {
+                            include_once($path);
+                            return;
+                        }
+                    }
+                }
             }
                         
             if(strcasecmp(substr($name, strlen($name)-strlen("plugin")),"plugin" )==0) {
@@ -278,6 +297,10 @@ function error($str, $log=true)
 
 function message($str, $log=true) 
 {
+    if(!is_string($str)){
+        $str = sprint_r($str);
+    }
+
     if ($log)
         logMessage($str);
     
@@ -296,44 +319,84 @@ function messageGet()
 function makeUrl($v1=null, $v2=null) 
 {
     if(is_array($v1)) {
-        $arr = $v1;
+        $res = $v1;
         
     }
     else {
         if($v1===null) {
-            $arr = array();
+            $res = array();
         }
         else {
-            $arr = array($v1=>$v2);
+            $res = array($v1=>$v2);
         }
     }
 
-    $res = array();
-    foreach($arr as $key => $value) 
-    {
-        if ($value !== null) {
-            $res[] = urlEncode($key) . "=" . urlEncode($value);
+    $strip = false;
+    
+    if($res['controller'] != null) {
+        $strip = true;
+    }
+
+    $filter = array( 'message_str'=>true, 'filter_column'=>true, 'filter_column_value'=>true, 'redirect_render_time'=>true, 'redirect_query_time'=>true, 'redirect_query_count'=>true);
+
+    if (!$strip) {
+        foreach($_GET as $key => $value) {
+            if (array_key_exists($key, $filter)) {
+                continue;
+            }
+            
+            if (!array_key_exists($key, $res) ) {
+                $res[$key] = $value;
+            }
         }
     }
     
-    $filter = array( 'message_str'=>true, 'filter_column'=>true, 'filter_column_value'=>true, 'redirect_render_time'=>true, 'redirect_query_time'=>true, 'redirect_query_count'=>true);
-	
-    foreach($_GET as $key => $value) 
-    {
-		if (array_key_exists($key, $filter)) {
-            continue;
-        }
-        
-        if (!array_key_exists($key, $arr) ) {
-            $res[] = urlEncode($key) . "=" . urlEncode($value);
+    $base = util::getPath();
+    
+    $controller = $res['controller'];
+    $id = $res['id'];
+    $task = $res['task'];
+    if(util::$path != "") {
+        if( $controller !== null) {
+            if ($id !== null) {
+                if ($task !== null) {
+                    
+                    $res['task']=null;
+                    $base .= urlEncode($controller)."/".urlEncode($id). "/".urlEncode($task);
+                }
+                else {
+                    $base .= urlEncode($controller)."/".urlEncode($id);
+                }
+                
+                $res['id']=null;
+            }
+            else if ($task !== null) {
+                $base .= urlEncode($controller)."/".urlEncode($task);
+                $res['task']=null;
+            } else {
+                
+                $base .= urlEncode($controller);                
+            }
+            
+            $res['controller']=null;
         }
     }
+    
 
-    if (count($res) == 0) 
-        return "index.php";
-        
-
-    return "?" . implode("&", $res);
+    $val = array();
+    foreach($res as $key => $value) 
+    {
+        if ($value !== null) {
+            $val[] = urlEncode($key) . "=" . urlEncode($value);
+        }
+    }
+    $str = implode("&", $val);
+    
+    if (strlen($str)==0) {
+        return $base;
+    }
+    
+    return $base . "?" . $str;
 }
 
 function makeLink($arr, $txt, $class=null, $mouseover=null, $attribute=array()) 
