@@ -163,6 +163,9 @@ class dbMaker
     function fetchRow($q, $param=array()) 
     {
         $res = self::query($q, $param);
+        if (!$res) {
+            return array();
+        }
         $row = $res->fetch(PDO::FETCH_ASSOC);
         self::$last_count = $res->rowCount();
         $res->closeCursor();
