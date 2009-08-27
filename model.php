@@ -40,7 +40,7 @@ class dbItem
     {
         $count = 0;
         if ($arr) {
-            foreach ($this->getPublicProperties() as $key) {
+            foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
                 if (array_key_exists($key, $arr)) {
                     $this->$key = $arr[$key];
                     $count ++;
@@ -66,8 +66,13 @@ class dbItem
         return $res;
     }
 
-    function findAll($class_name, $table_name) 
+    function findAll($class_name=null, $table_name=null) 
     {
+        if(isset($this)){
+            $table_name = $this->table;
+            $class_name = get_class($this);
+        }
+        
         $res=array();
         foreach(db::fetchList("select * from $table_name") as $row) {
             $res[] = new $class_name($row);
@@ -77,7 +82,7 @@ class dbItem
 
     function save($key='id') 
     {
-        $this->saveInternal($key);
+        return $this->saveInternal($key);
     }
     
     function saveInternal($key='id') 
@@ -88,7 +93,7 @@ class dbItem
         $idx = 1;
         
         if ($key !== null && $this->$key !== null) {
-                        
+            
             foreach($prop as $p) {
                 if ($p != $key) {
                     if($this->$p === null) {
@@ -130,7 +135,7 @@ class dbItem
             $res = db::query($query, $param);
             if($res)
                 $this->$key = db::lastInsertId($this->table . "_" . $key . "_seq");
-            return $res;
+            return !!$res;
         }
     }
 

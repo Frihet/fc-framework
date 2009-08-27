@@ -172,22 +172,20 @@ theme : "simple"
     {
         ob_start();
         ob_implicit_flush(0);
-
+        
         ob_start();
-
+        
         util::setTitle("");
-		$controller = null;
-	
+        $controller = null;
+                
         try {
             
             $controller = param('controller',param('action',$this->getDefaultController()));
-
+            
             $controller_str = "{$controller}Controller";
             /**
              Try and see if we have a controller with the specified name
             */
-
-            util::loadClass($controller_str);
             
             if(class_exists($controller_str)) {
                 $controller = new $controller_str($this);
