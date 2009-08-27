@@ -4,7 +4,7 @@
   */
 body
 {
-    background-image: url('../static/bg.png');
+    background-image: url('bg.png');
     background-repeat: repeat;
     background-color: #1d1d1d;
     padding: 0%;
@@ -48,7 +48,7 @@ body .dp-choose-date,
 	border-radius: 3px;
     -moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	background-image: url('../static/button_bg.png');
+	background-image: url('button_bg.png');
 	background-repeat: repeat-x;
 
     padding: 2px 10px 2px 10px;
@@ -91,7 +91,7 @@ body .content .revert:active,
 body .dp-choose-date:active,
 body button:active
 {
-	background-image: url('../static/button_bg_active.png');
+	background-image: url('button_bg_active.png');
 	background-color: #25262c;
     color: #aaa;
 }
@@ -103,7 +103,7 @@ body button:active
 body .dp-choose-date:hover,
 button:hover
 {
-	background-image: url('../static/button_bg_hover.png');
+	background-image: url('button_bg_hover.png');
 	background-color: #3b3d47;
 	cursor:pointer;cursor:hand
 }
@@ -369,7 +369,7 @@ Stykling for installation screen
 {
 	background-repeat: no-repeat;
 	background-position: top right;
-	background-image: url('../static/bg2.jpg');
+	background-image: url('bg2.jpg');
 }
 
 .main_menu .logo
