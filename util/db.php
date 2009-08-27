@@ -102,19 +102,36 @@ class dbMaker
 	
     /**
      Execute the specified query.
+
+     The parameters in the param array are interpreted as strings,
+     unless they are resources, in which case they are interpreted as
+     LOBs.
+
     */
     function query($q, $param=array())
     {
         $t1 = microtime(true);
         self::$query_count += 1;
         try {
-            if (array_key_exists($q, self::$statement_cache)) {
+            if (false && array_key_exists($q, self::$statement_cache)) {
                 $res = self::$statement_cache[$q];
             } else {
                 self::$statement_cache[$q] = $res = self::$db->prepare($q);
             }
+
+            foreach($param as $name => $value) {
+/*
+if(is_resource($value)) {
+message("Query $q");
+message("Param $name is LOB");
+message("Bind $name to $value");
+}
+*/
+                $res->bindValue($name, $value, is_resource($value)?PDO::PARAM_LOB : PDO::PARAM_STR);
+            }
             
-            $ok = $res->execute($param);
+            $ok = $res->execute();
+//            $ok = $res->execute($param);
         }
         catch (PDOException $e) {
             self::$error = $e->getMessage();

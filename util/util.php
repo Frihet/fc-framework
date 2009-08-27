@@ -1,8 +1,13 @@
 <?php
 
+
+function __autoload($name) {
+    util::loadClass($name);
+}
+
 class util
 {
-
+    
 	static $ci_html_title="";
 	static $message_str="";
         static $redirect = false;
@@ -355,7 +360,9 @@ function makeUrl($v1=null, $v2=null)
     
     $controller = $res['controller'];
     $id = $res['id'];
+    $date = $res['date'];
     $task = $res['task'];
+    $user = $res['user'];
     if(util::$path != "") {
         if( $controller !== null) {
             if ($id !== null) {
@@ -373,13 +380,38 @@ function makeUrl($v1=null, $v2=null)
             else if ($task !== null) {
                 $base .= urlEncode($controller)."/".urlEncode($task);
                 $res['task']=null;
+            } else if ($date !== null) {
+                if ($user !== null) {
+                    
+                    $res['user']=null;
+                    $base .= urlEncode($controller)."/".urlEncode($date). "/".urlEncode($user);
+                }
+                else {
+                    $base .= urlEncode($controller)."/".urlEncode($date);
+                }
+                $res['date']=null;
             } else {
                 
                 $base .= urlEncode($controller);                
             }
             
+
+
             $res['controller']=null;
+            
         }
+        else if ($date !== null) {
+            if ($user !== null) {
+                
+                $res['user']=null;
+                $base .= urlEncode($date). "/".urlEncode($user);
+            }
+            else {
+                $base .= urlEncode($date);
+            }
+            $res['date']=null;
+        }
+        
     }
     
 
@@ -457,5 +489,14 @@ function logMessage()
     
 }
 
+function coalesce() {
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        if (!empty($arg)) {
+            return $arg;
+        }
+    }
+    return $args[0];
+}
 
 ?>

@@ -18,7 +18,7 @@ class Controller
 
     private $extra_content=array();
     private $application;
-    
+
     function __contruct($app) 
     {
         $this->application = $app;
@@ -57,7 +57,7 @@ class Controller
             return;
         }
         
-        echo "<div class='action_menu'>\n";
+        echo "<div class='action_menu no_print'>\n";
 		echo implode("",$this->getContent("action_menu_pre"));
         echo "<ul>\n";
         if( count($link_list)) {
@@ -127,17 +127,16 @@ class Controller
 	 */
 	function render($view) 
 	{
-		if(!class_exists("{$view}View")) {
-			include("views/{$view}View.php");
-		}
-		if(!class_exists("{$view}View")) {
-			die("Unknown view $view");
-		}
-		$viewName = "{$view}View";
-		
-		$v = new $viewName();
-		$v->render($this);
-		
+            $view_name = "{$view}View";
+            
+            if(class_exists($view_name)) {
+                $v = new $view_name();
+                $v->render($this);
+            } else {
+                header("Status: 404");
+                echo "View $view_name not found!";
+                exit(0);
+            }
 	}
 
 	function addContent($position, $content) 
