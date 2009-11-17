@@ -165,6 +165,17 @@ theme : "simple"
     }
 
 
+    function preRun($controller)
+    {
+	
+    }
+    
+    function postRun($controller)
+    {
+	
+    }
+    
+
     /**
      Main application runner.
 	*/
@@ -176,6 +187,8 @@ theme : "simple"
         ob_start();
         
         util::setTitle("");
+	
+
         $controller = null;
                 
         try {
@@ -189,7 +202,9 @@ theme : "simple"
             
             if(class_exists($controller_str)) {
                 $controller = new $controller_str($this);
+                $this->preRun($controller);
                 $controller->run();
+		$this->postRun($controller);
             } else {
                 header("Status: 404");
                 echo "Controller $controller not found!";
@@ -205,7 +220,7 @@ theme : "simple"
                 
         $out = ob_get_contents();
         ob_clean();
-        $this->writeHeader( $this->getApplicationName() . " - " . htmlEncode(util::getTitle()), $controller);
+        $this->writeHeader( $this->getApplicationName() . " - " . util::getTitle(), $controller);
         echo $out;
         $this->writeFooter();
         ob_end_flush();

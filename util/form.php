@@ -94,7 +94,7 @@ class form
             $checked = 'checked="yes"';
         }
         
-        return "<input type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
+        return "<input class='checkbox' type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
     }
     
     function makeFile($name, $id=null)

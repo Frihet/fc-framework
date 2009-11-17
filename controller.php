@@ -13,6 +13,7 @@
  developer needs to implement a 'saveRun' method.
 
 */
+
 class Controller
 {
 
@@ -28,6 +29,15 @@ class Controller
     {
         return $this->application;
     }
+
+    function preRun()
+    {
+    }
+    
+    function postRun()
+    {
+    }
+    
     
     /** Check the task param and try to run the corresponding
      function, if it exists. Gives an error otherwise.
@@ -37,6 +47,7 @@ class Controller
         $task = param('task','view');
 
         $class_name = get_class($this);
+        $this->preRun();
         
         $str = "{$task}Run";
         
@@ -46,6 +57,7 @@ class Controller
         else {
             error("Unknown task: $task");
         }
+        $this->postRun();
     }
     
     /**
@@ -58,8 +70,10 @@ class Controller
         }
         
         echo "<div class='action_menu no_print'>\n";
-		echo implode("",$this->getContent("action_menu_pre"));
         echo "<ul>\n";
+
+        echo implode("",$this->getContent("action_menu_pre"));
+
         if( count($link_list)) {
             echo  "<li><h2>Actions</h2></li>\n";
             
@@ -72,7 +86,7 @@ class Controller
         }
         
         echo $this->actionBox();
-		echo implode("",$this->getContent("action_menu_post"));
+        echo implode("",$this->getContent("action_menu_post"));
         
         echo "</ul>\n";
         echo "</div>\n";
@@ -151,18 +165,5 @@ class Controller
 	
 	
 }
-
-
-class CsvController
-extends Controller
-{
-    
-    function viewRun()
-    {
-        
-    }
-
-}
-
 
 ?>
