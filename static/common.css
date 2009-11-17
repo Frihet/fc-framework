@@ -108,7 +108,7 @@ button:hover
 	cursor:pointer;cursor:hand
 }
 
-input
+input, textarea
 {
     background-color: white;
     border: 1px solid #888;
@@ -432,8 +432,6 @@ Stykling for installation screen
     color: #900;
 }
 
-
-
 /*
   Styling of the variable menu on the side
   */
@@ -485,6 +483,16 @@ Stykling for installation screen
     margin-left: 1%;
     padding: 0%;
     margin-bottom: 1%;
+}
+
+
+/*
+  Styling of the main content pane
+  */
+.content.no_sidebar
+{
+    width: 96%;
+    margin-left: 2%;
 }
 
 
@@ -551,4 +559,31 @@ Misc minor styling
     display: block;
     text-align: right;
     width:100%;
+}
+
+th a
+{
+    color:white;
+}
+
+th a:visited
+{
+    color:#ddd;
+}
+
+.user-tools
+{
+    float: right;
+}
+
+#content-main caption
+{
+    font-weight: bold;
+}
+
+input.checkbox,
+input.radio
+{
+    width: auto;
+    min-width: 1px;
 }

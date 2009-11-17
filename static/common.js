@@ -9,10 +9,8 @@ function popupHide(id) {
 }
 
 function stripe() {
-    $('.striped > tbody > tr:odd > td, .striped > tbody > tr:odd > th'
-      ).addClass('odd');
-    $('.striped > tbody > tr:even > td, .striped > tbody > tr:even > th'
-      ).removeClass('odd');
+    $('.striped > tbody > tr:odd > td, .striped > tbody > tr:odd > th').addClass('odd');
+    $('.striped > tbody > tr:even > td, .striped > tbody > tr:even > th').removeClass('odd');
 }
 
 function installCheckFields() {
@@ -133,10 +131,3 @@ var dynamicIFrame = {
 		div.style.height = (dim[1]+30) + 'px';
 	}
 };
-
-function FreeCMDBInit()
-{
-    Date.format='yyyy-mm-dd';
-}
-
-FreeCMDBInit();
