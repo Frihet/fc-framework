@@ -586,4 +586,6 @@ input.radio
 {
     width: auto;
     min-width: 1px;
+    border: none;
+    background-color: transparent;
 }
