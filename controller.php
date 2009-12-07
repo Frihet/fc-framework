@@ -20,7 +20,7 @@ class Controller
     private $extra_content=array();
     private $application;
 
-    function __contruct($app) 
+    function __construct($app) 
     {
         $this->application = $app;
     }

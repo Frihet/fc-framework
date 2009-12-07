@@ -1,11 +1,11 @@
 function popupShow(id) {
-	box = document.getElementById(id);
-	box.style.display="block";
+    var box = document.getElementById(id);
+    box.style.display="block";
 }
 
 function popupHide(id) {
-	box = document.getElementById(id);
-	box.style.display="none";
+    var box = document.getElementById(id);
+    box.style.display="none";
 }
 
 function stripe() {
@@ -15,9 +15,9 @@ function stripe() {
 
 function installCheckFields() {
     var ok = true;
-    fields = ['admin_username','admin_password','dsn'];
+    var fields = ['admin_username','admin_password','dsn'];
     for(var i =0; i<fields.length; i++) {
-	if ($("#"+fields[i])[0].value == '') {
+	if ($("#"+fields[i])[0].value === '') {
 	    $("#"+fields[i] + '_error')[0].innerHTML = "No value specified";
 	    ok = false;
 	}

@@ -359,11 +359,19 @@ function makeUrl($v1=null, $v2=null)
     $base = util::getPath();
     
     $controller = $res['controller'];
+    $plugin = $res['plugin'];
     $id = $res['id'];
     $date = $res['date'];
     $task = $res['task'];
     $user = $res['user'];
     if(util::$path != "") {
+
+        if ($plugin !== null) {
+            $base .= 'plugins/' . urlEncode($plugin) . "/";
+            $res['plugin']=null;
+
+        }
+        
         if( $controller !== null) {
             if ($id !== null) {
                 if ($task !== null) {
@@ -395,9 +403,8 @@ function makeUrl($v1=null, $v2=null)
                 $base .= urlEncode($controller);                
             }
             
-
-
             $res['controller']=null;
+
             
         }
         else if ($date !== null) {
