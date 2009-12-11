@@ -96,11 +96,17 @@ class Application
             echo '
 <script type="text/javascript">
 
-tinyMCE.init({
-mode : "specific_textareas",
-editor_selector : "rich_edit",
-theme : "simple"
-});
+      tinyMCE.init({
+      mode : "specific_textareas",
+      editor_selector : "rich_edit",
+      theme : "advanced",
+      theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,separator,undo,redo,link,unlink",
+      theme_advanced_buttons2 : "",
+      theme_advanced_buttons3 : "",
+      theme_advanced_toolbar_location : "top",
+      theme_advanced_toolbar_align : "left"
+      });
+
 </script>';
         }
         
