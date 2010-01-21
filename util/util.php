@@ -277,7 +277,6 @@ function checkMagicQuotes()
 }
 
 
-
 function htmlEncode($str,$qt=ENT_QUOTES) 
 {
     return htmlEntities($str, $qt, 'UTF-8');
@@ -316,7 +315,7 @@ function message($str, $log=true)
 function messageGet()
 {
     if (array_key_exists('message_str', $_REQUEST)) {
-	    return $_REQUEST['message_str'] . util::$message_str;
+        return $_REQUEST['message_str'] . util::$message_str;
     }
     return util::$message_str;
 }

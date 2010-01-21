@@ -36,6 +36,7 @@ h2
 /*
   Form styling
   */
+input.button,
 button,
 .content .edit,
 .content .remove,
@@ -89,7 +90,8 @@ body .content .remove:active,
 body .content .revision:active,
 body .content .revert:active,
 body .dp-choose-date:active,
-body button:active
+body button:active,
+body input.button:active
 {
 	background-image: url('button_bg_active.png');
 	background-color: #25262c;
@@ -101,7 +103,8 @@ body button:active
 .content .revision:hover,
 .content .revert:hover,
 body .dp-choose-date:hover,
-button:hover
+button:hover,
+input.button:hover
 {
 	background-image: url('button_bg_hover.png');
 	background-color: #3b3d47;

@@ -30,6 +30,7 @@ define('IS_MAIN_PAGE', 1);
 
 require_once("common/util/util.php");
 require_once("common/util/db.php");
+checkMagicQuotes();
 require_once("common/install.php");
 
 require_once("common/util/plugin.php");
@@ -55,7 +56,6 @@ class Application
 
     var $use_tiny_mce;
     
-    
     function enableDatePicker()
     {
         $this->addScript("common/static/jquery.datePicker.js");
@@ -70,7 +70,7 @@ class Application
         
     /*
      Write http headers, html headers and the top menu
-     */
+    */
     function writeHeader($title, $controller)
     {
         header('Content-Type: text/html; charset=utf-8');
@@ -90,7 +90,12 @@ class Application
 ';
         }
         
+        
         echo '<title>'.htmlEncode($title).'</title>';
+        
+        if(util::getPath())
+            echo '<script type="text/javascript">var FreeCMDB={}; FreeCMDB.base="'.util::getPath().'";</script>';
+
         if ($this->use_tiny_mce) {
             
             echo '
@@ -110,9 +115,11 @@ class Application
 </script>';
         }
         
+        $body_class = param('controller');
+        
         echo '
         </head>
-        <body>
+        <body class="'.$body_class.'">
 
 ';
         $this->writeMenu($controller);

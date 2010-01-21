@@ -5,6 +5,7 @@ class dbItem
 
     function __construct($param=null) 
     {
+        
         if($param === null) {
             return;
         }
@@ -66,15 +67,28 @@ class dbItem
         return $res;
     }
 
+    function hasSoftDelete()
+    {
+        return false;
+    }
+    
+
     function findAll($class_name=null, $table_name=null) 
     {
+        $where = "";
+        
         if(isset($this)){
             $table_name = $this->table;
             $class_name = get_class($this);
+
+            if($this->hasSoftDelete()) {
+                $where = "where deleted=false";
+            }
         }
         
         $res=array();
-        foreach(db::fetchList("select * from $table_name") as $row) {
+                        
+        foreach(db::fetchList("select * from $table_name $where") as $row) {
             $res[] = new $class_name($row);
         }
         return $res;
@@ -149,6 +163,7 @@ class dbItem
 select *
 from ".$this->table."
 where $key = :value", array(":value"=>$key_value)));
+
     }
     
             
