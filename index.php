@@ -54,6 +54,7 @@ define('IS_MAIN_PAGE', 1);
 
 require_once("common/util/util.php");
 require_once("common/util/db.php");
+checkMagicQuotes();
 require_once("common/install.php");
 
 require_once("common/util/plugin.php");
@@ -79,7 +80,6 @@ class Application
 
     var $use_tiny_mce;
     
-    
     function enableDatePicker()
     {
         $this->addScript("common/static/jquery.datePicker.js");
@@ -94,7 +94,7 @@ class Application
         
     /*
      Write http headers, html headers and the top menu
-     */
+    */
     function writeHeader($title, $controller)
     {
         header('Content-Type: text/html; charset=utf-8');
@@ -114,23 +114,36 @@ class Application
 ';
         }
         
+        
         echo '<title>'.htmlEncode($title).'</title>';
+        
+        if(util::getPath())
+            echo '<script type="text/javascript">var FreeCMDB={}; FreeCMDB.base="'.util::getPath().'";</script>';
+
         if ($this->use_tiny_mce) {
             
             echo '
 <script type="text/javascript">
 
-tinyMCE.init({
-mode : "specific_textareas",
-editor_selector : "rich_edit",
-theme : "simple"
-});
+      tinyMCE.init({
+      mode : "specific_textareas",
+      editor_selector : "rich_edit",
+      theme : "advanced",
+      theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,separator,undo,redo,link,unlink",
+      theme_advanced_buttons2 : "",
+      theme_advanced_buttons3 : "",
+      theme_advanced_toolbar_location : "top",
+      theme_advanced_toolbar_align : "left"
+      });
+
 </script>';
         }
         
+        $body_class = param('controller');
+        
         echo '
         </head>
-        <body>
+        <body class="'.$body_class.'">
 
 ';
         $this->writeMenu($controller);
@@ -189,6 +202,17 @@ theme : "simple"
     }
 
 
+    function preRun($controller)
+    {
+	
+    }
+    
+    function postRun($controller)
+    {
+	
+    }
+    
+
     /**
      Main application runner.
 	*/
@@ -200,6 +224,8 @@ theme : "simple"
         ob_start();
         
         util::setTitle("");
+	
+
         $controller = null;
                 
         try {
@@ -213,7 +239,9 @@ theme : "simple"
             
             if(class_exists($controller_str)) {
                 $controller = new $controller_str($this);
+                $this->preRun($controller);
                 $controller->run();
+		$this->postRun($controller);
             } else {
                 header("Status: 404");
                 echo "Controller $controller not found!";
@@ -229,7 +257,7 @@ theme : "simple"
                 
         $out = ob_get_contents();
         ob_clean();
-        $this->writeHeader( $this->getApplicationName() . " - " . htmlEncode(util::getTitle()), $controller);
+        $this->writeHeader( $this->getApplicationName() . " - " . util::getTitle(), $controller);
         echo $out;
         $this->writeFooter();
         ob_end_flush();

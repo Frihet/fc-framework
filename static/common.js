@@ -1,25 +1,23 @@
 function popupShow(id) {
-	box = document.getElementById(id);
-	box.style.display="block";
+    var box = document.getElementById(id);
+    box.style.display="block";
 }
 
 function popupHide(id) {
-	box = document.getElementById(id);
-	box.style.display="none";
+    var box = document.getElementById(id);
+    box.style.display="none";
 }
 
 function stripe() {
-    $('.striped > tbody > tr:odd > td, .striped > tbody > tr:odd > th'
-      ).addClass('odd');
-    $('.striped > tbody > tr:even > td, .striped > tbody > tr:even > th'
-      ).removeClass('odd');
+    $('.striped > tbody > tr:odd > td, .striped > tbody > tr:odd > th').addClass('odd');
+    $('.striped > tbody > tr:even > td, .striped > tbody > tr:even > th').removeClass('odd');
 }
 
 function installCheckFields() {
     var ok = true;
-    fields = ['admin_username','admin_password','dsn'];
+    var fields = ['admin_username','admin_password','dsn'];
     for(var i =0; i<fields.length; i++) {
-	if ($("#"+fields[i])[0].value == '') {
+	if ($("#"+fields[i])[0].value === '') {
 	    $("#"+fields[i] + '_error')[0].innerHTML = "No value specified";
 	    ok = false;
 	}
@@ -133,10 +131,3 @@ var dynamicIFrame = {
 		div.style.height = (dim[1]+30) + 'px';
 	}
 };
-
-function FreeCMDBInit()
-{
-    Date.format='yyyy-mm-dd';
-}
-
-FreeCMDBInit();

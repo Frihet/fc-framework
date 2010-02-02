@@ -4,7 +4,7 @@
   */
 body
 {
-    background-image: url('../static/bg.png');
+    background-image: url('bg.png');
     background-repeat: repeat;
     background-color: #1d1d1d;
     padding: 0%;
@@ -36,6 +36,7 @@ h2
 /*
   Form styling
   */
+input.button,
 button,
 .content .edit,
 .content .remove,
@@ -48,7 +49,7 @@ body .dp-choose-date,
 	border-radius: 3px;
     -moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	background-image: url('../static/button_bg.png');
+	background-image: url('button_bg.png');
 	background-repeat: repeat-x;
 
     padding: 2px 10px 2px 10px;
@@ -89,9 +90,10 @@ body .content .remove:active,
 body .content .revision:active,
 body .content .revert:active,
 body .dp-choose-date:active,
-body button:active
+body button:active,
+body input.button:active
 {
-	background-image: url('../static/button_bg_active.png');
+	background-image: url('button_bg_active.png');
 	background-color: #25262c;
     color: #aaa;
 }
@@ -101,14 +103,15 @@ body button:active
 .content .revision:hover,
 .content .revert:hover,
 body .dp-choose-date:hover,
-button:hover
+button:hover,
+input.button:hover
 {
-	background-image: url('../static/button_bg_hover.png');
+	background-image: url('button_bg_hover.png');
 	background-color: #3b3d47;
 	cursor:pointer;cursor:hand
 }
 
-input
+input, textarea
 {
     background-color: white;
     border: 1px solid #888;
@@ -369,7 +372,7 @@ Stykling for installation screen
 {
 	background-repeat: no-repeat;
 	background-position: top right;
-	background-image: url('../static/bg2.jpg');
+	background-image: url('bg2.jpg');
 }
 
 .main_menu .logo
@@ -432,8 +435,6 @@ Stykling for installation screen
     color: #900;
 }
 
-
-
 /*
   Styling of the variable menu on the side
   */
@@ -485,6 +486,16 @@ Stykling for installation screen
     margin-left: 1%;
     padding: 0%;
     margin-bottom: 1%;
+}
+
+
+/*
+  Styling of the main content pane
+  */
+.content.no_sidebar
+{
+    width: 96%;
+    margin-left: 2%;
 }
 
 
@@ -551,4 +562,33 @@ Misc minor styling
     display: block;
     text-align: right;
     width:100%;
+}
+
+th a
+{
+    color:white;
+}
+
+th a:visited
+{
+    color:#ddd;
+}
+
+.user-tools
+{
+    float: right;
+}
+
+#content-main caption
+{
+    font-weight: bold;
+}
+
+input.checkbox,
+input.radio
+{
+    width: auto;
+    min-width: 1px;
+    border: none;
+    background-color: transparent;
 }

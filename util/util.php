@@ -277,7 +277,6 @@ function checkMagicQuotes()
 }
 
 
-
 function htmlEncode($str,$qt=ENT_QUOTES) 
 {
     return htmlEntities($str, $qt, 'UTF-8');
@@ -316,7 +315,7 @@ function message($str, $log=true)
 function messageGet()
 {
     if (array_key_exists('message_str', $_REQUEST)) {
-	    return $_REQUEST['message_str'] . util::$message_str;
+        return $_REQUEST['message_str'] . util::$message_str;
     }
     return util::$message_str;
 }
@@ -359,11 +358,19 @@ function makeUrl($v1=null, $v2=null)
     $base = util::getPath();
     
     $controller = $res['controller'];
+    $plugin = $res['plugin'];
     $id = $res['id'];
     $date = $res['date'];
     $task = $res['task'];
     $user = $res['user'];
     if(util::$path != "") {
+
+        if ($plugin !== null) {
+            $base .= 'plugins/' . urlEncode($plugin) . "/";
+            $res['plugin']=null;
+
+        }
+        
         if( $controller !== null) {
             if ($id !== null) {
                 if ($task !== null) {
@@ -395,9 +402,8 @@ function makeUrl($v1=null, $v2=null)
                 $base .= urlEncode($controller);                
             }
             
-
-
             $res['controller']=null;
+
             
         }
         else if ($date !== null) {
@@ -436,10 +442,9 @@ function makeLink($arr, $txt, $class=null, $mouseover=null, $attribute=array())
     $mouseover_str = "";
     $onclick_str = "";
     
-    if ($mouseover) {
+    if ($mouseover && false) {
         $class .= " mouseoverowner";
         $mouseover_str = "<div class='onmouseover'>\n$mouseover\n</div>";
-        
     }
         
     $attribute_str = "";

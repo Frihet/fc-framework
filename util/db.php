@@ -181,7 +181,7 @@ message("Bind $name to $value");
     {
         $res = self::query($q, $param);
         if (!$res) {
-            return array();
+            return null;
         }
         $row = $res->fetch(PDO::FETCH_ASSOC);
         self::$last_count = $res->rowCount();
