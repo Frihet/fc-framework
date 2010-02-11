@@ -75,7 +75,7 @@ class Controller
         echo implode("",$this->getContent("action_menu_pre"));
 
         if( count($link_list)) {
-            echo  "<li><h2>Actions</h2></li>\n";
+            echo  "<li><h2>"._("Actions")."</h2></li>\n";
             
             foreach($link_list as $link) {
                 
