@@ -442,9 +442,9 @@ function makeLink($arr, $txt, $class=null, $mouseover=null, $attribute=array())
     $mouseover_str = "";
     $onclick_str = "";
     
-    if ($mouseover && false) {
+    if ($mouseover) {
         $class .= " mouseoverowner";
-        $mouseover_str = "<div class='onmouseover'>\n$mouseover\n</div>";
+        $mouseover_str = "<span class='onmouseover'>\n$mouseover\n</span>";
     }
         
     $attribute_str = "";

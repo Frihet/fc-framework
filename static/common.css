@@ -137,8 +137,53 @@ td input
 
 .anchor
 {
-    display: block;
-    position:relative;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+
+/*
+  Styling of mouseovers
+  */
+.onmouseover
+{
+    display:none;
+}
+
+.mouseoverowner
+{
+    position: relative;
+}
+
+.mouseoverowner:hover .onmouseover
+{
+    display:block;
+    position: absolute; 
+    top: 20px; left: 40px; 
+    width: 250pt;
+    background: #ffa;
+    border: 1px solid black;
+    z-index: 1;
+    font-size: small;
+    padding: 5px 15px;
+    color: black;
+}
+
+/* this is just for IE */
+.mouseoverowner:hover
+{
+	z-index: 1;
+}
+
+/* this is just for IE */
+.onmouseover:hover
+{
+	z-index: 2; 
 }
 
 
@@ -151,15 +196,17 @@ td input
     position: fixed;
     left: 20%;
     top: 10%;
-    background: white;
+    background: #fff;
     border: 1px solid black;
     padding: 0px;
-    z-index: 3;
+	z-index: 5;
 }
 
 .popup_content
 {
     padding: 5px 15px;
+	background: #fff;
+    z-index: 1000;
 }
 
 .popup_title
@@ -168,7 +215,7 @@ td input
     color: #fff;
     font-weight:bold;
     padding: 3px;
-    
+    z-index: 1000;
 }
 
 .popup_title a
@@ -196,33 +243,6 @@ td input
     background: #555;
 }
 
-
-/*
-  Styling of mouseovers
-  */
-.onmouseover
-{
-    display:none;
-}
-
-.mouseoverowner
-{
-    position: relative;
-}
-
-:hover.mouseoverowner .onmouseover
-{
-    display:block;
-    position: absolute; 
-    top: 20px; left: 40; 
-    width: 250pt;
-    background: #ffa;
-    border: 1px solid black;
-    z-index: 1;
-    font-size: small;
-    padding: 5px 15px;
-    color: black;
-}
 
 /*
   Styling of floating figures
