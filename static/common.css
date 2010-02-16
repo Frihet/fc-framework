@@ -56,6 +56,15 @@ body .dp-choose-date,
     color: white;
 }
 
+body .dp-choose-date{
+    margin-left: 4pt;
+}
+
+td .date_picker
+{
+    width: 50%;
+}
+
 /*
   Styling for anchors that look like buttons.
   */

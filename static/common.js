@@ -1,12 +1,12 @@
 function popupShow(id) {
     var box = document.getElementById(id);
-	$(box).parent().css({display:"block"});
+    //$(box).parent().css({display:"block"});
     box.style.display="block";
 }
 
 function popupHide(id) {
     var box = document.getElementById(id);
-	$(box).parent().css({display:"none"});
+    //$(box).parent().css({display:"none"});
     box.style.display="none";
 }
 

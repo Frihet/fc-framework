@@ -442,19 +442,18 @@ function makeLink($arr, $txt, $class=null, $mouseover=null, $attribute=array())
     $mouseover_str = "";
     $onclick_str = "";
     
-    if ($mouseover) {
+    if ($mouseover && false) {
         $class .= " mouseoverowner";
         $mouseover_str = "<span class='onmouseover'>\n$mouseover\n</span>";
     }
-        
+    
     $attribute_str = "";
     foreach($attribute as $key => $value) {
         $attribute_str .= htmlEncode($key)."=\"".htmlEncode($value,ENT_COMPAT)."\"";
     }
     
-
     $class_str = $class?"class='$class'":"";
-
+    
     if (is_array($arr)) {
         $arr = makeUrl($arr);
     }
