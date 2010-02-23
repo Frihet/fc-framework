@@ -70,11 +70,10 @@ class Controller
         }
         
         echo "<div class='action_menu no_print'>\n";
-        echo "<ul>\n";
-
         echo implode("",$this->getContent("action_menu_pre"));
 
-        if( count($link_list)) {
+	if( count($link_list)) {
+	    echo "<ul>\n";
             echo  "<li><h2>"._("Actions")."</h2></li>\n";
             
             foreach($link_list as $link) {
@@ -83,12 +82,14 @@ class Controller
                 echo $link;
                 echo "</li>\n";
             }
+	    echo "</ul>\n";
         }
-        
-        echo $this->actionBox();
+
+	$box = $this->actionBox();        
+	if ($box !== "")
+	    echo "<ul>" . $box . "</ul>";
+
         echo implode("",$this->getContent("action_menu_post"));
-        
-        echo "</ul>\n";
         echo "</div>\n";
 					
     }
@@ -123,6 +124,7 @@ class Controller
      */
     function actionBox() 
     {
+	    return "";
     }
     
     function isAdmin() 

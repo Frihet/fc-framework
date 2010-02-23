@@ -179,7 +179,7 @@ class Application
         echo makeLink("http://www.freecode.no", $copyright, 'copyright_inner', $performance);
         echo "</div>\n";
         
-        echo "<script>stripe();</script>
+        echo "<script type='text/javascript'>stripe();</script>
 </body>
 </html>
 ";

@@ -352,6 +352,10 @@ Stykling for installation screen
     padding: 0%;
 }
 
+.main_menu .user_info {
+    float: right;
+}
+
 .main_menu_inner
 {
     background-color: white;
@@ -440,7 +444,6 @@ Stykling for installation screen
   */
 .action_menu
 {
-    background-color: white;
     float: left;
     width: 15%;
     padding: 0%;
@@ -449,9 +452,13 @@ Stykling for installation screen
 
 .action_menu ul
 {
-    margin: 0%;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 10pt;
     padding: 1em;
     border: 1px solid #000;
+    background-color: white;
 }
 
 .action_menu li
