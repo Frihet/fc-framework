@@ -40,6 +40,7 @@ input.button,
 button,
 .content .edit,
 .content .remove,
+.content .action,
 .content .revision,
 body .dp-choose-date,
 .content .revert
@@ -61,6 +62,7 @@ body .dp-choose-date,
   */
 body .content .edit,
 body .content .remove,
+body .content .action,
 body .content .revision,
 body .dp-choose-date,
 body .content .revert
@@ -87,6 +89,7 @@ box, to add the top/bottom margins, thus working around the problem.
 
 body .content .edit:active,
 body .content .remove:active,
+body .content .action:active,
 body .content .revision:active,
 body .content .revert:active,
 body .dp-choose-date:active,
@@ -100,6 +103,7 @@ body input.button:active
 
 .content .edit:hover,
 .content .remove:hover,
+.content .action:hover,
 .content .revision:hover,
 .content .revert:hover,
 body .dp-choose-date:hover,
@@ -346,17 +350,31 @@ Stykling for installation screen
 /*
   Styling of the main menu at the top
   */
-.main_menu
+.menu_box
 {
     margin: 2% 2% 1% 2%;
     padding: 0%;
 }
 
-.main_menu .user_info {
-    float: right;
+.menu_box .main_menu  {
+    float: left;
 }
 
-.main_menu_inner
+.menu_box .search  {
+    float: right;
+    margin-right: 1em;
+}
+
+.menu_box .user_info {
+    float: right;
+    text-align: right;
+}
+
+.menu_box .breadcrumb {
+    clear: both;
+}
+
+.menu_box_inner
 {
     background-color: white;
     padding: 1em;
@@ -372,14 +390,7 @@ Stykling for installation screen
 	-webkit-border-radius-top-right: 10px;
 }
 
-.main_menu_inner
-{
-	background-repeat: no-repeat;
-	background-position: top right;
-	background-image: url('bg2.jpg');
-}
-
-.main_menu .logo
+.menu_box_inner .logo
 {
     padding-top: 4em;
     padding-bottom: 4em;
@@ -387,32 +398,39 @@ Stykling for installation screen
 	
 }
 
-.main_menu ul
+.menu_box_inner ul
 {
     margin: 0%;
     padding: 0%;
 }
 
-.main_menu li
+.menu_box_inner li
 {
     display: inline;
     list-style-type: none;
-    padding-right: 3em;
+    padding-right: 0.5em;
     padding-left: 0%;
     margin: 0%;
 }
 
+.menu_box_inner li *
+{
+    display: inline;
+}
 
-.main_menu .selected
+
+.menu_box_inner .selected
 {
     font-weight: bold;
 }
 
-.main_menu a
+.menu_box_inner a
 {
     color: black;
     text-decoration: none;
 }
+
+
 
 /*
   Styling of the message list
