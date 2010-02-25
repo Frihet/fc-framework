@@ -424,7 +424,8 @@ Stykling for installation screen
     font-weight: bold;
 }
 
-.menu_box_inner a
+.menu_box_inner a,
+.menu_box_inner a:visited
 {
     color: black;
     text-decoration: none;
@@ -616,4 +617,21 @@ input.radio
     min-width: 1px;
     border: none;
     background-color: transparent;
+}
+
+dt
+{
+    font-weight: bold;
+}
+
+dt a,
+dt a:visited
+{
+    color: #000000;
+}
+
+dd
+{
+    padding-bottom: 10pt;
+    max-width: 50em;
 }
