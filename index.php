@@ -75,8 +75,8 @@ class Application
                          "common/static/common.js",
                          "common/static/date.js");
     
-    var $styles = array(array('name'=>'common/static/common.css', 
-                              'media'=>"screen,projection"));
+    var $styles = array('common/static/common.css' => array('name'=>'common/static/common.css', 
+                                                            'media'=>"screen,projection"));
 
     var $use_tiny_mce;
     
@@ -106,11 +106,17 @@ class Application
                 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 ';
         foreach($this->styles as $s) {
-            echo '<link rel="stylesheet" href="'.util::getPath().htmlEncode($s['name']).'" type="text/css" media="'.$s['media'].'" />
+            $path = $s['name'];
+	    if ($path[0] != '/')
+	        $path = util::getPath() . $path;
+            echo '<link rel="stylesheet" href="'.htmlEncode($path).'" type="text/css" media="'.$s['media'].'" />
 ';
         }
         foreach($this->scripts as $s) {
-            echo '<script type="text/javascript" src="'.util::getPath().htmlEncode($s).'"></script>
+            $path = $s;
+	    if ($path[0] != '/')
+	        $path = util::getPath() . $path;
+            echo '<script type="text/javascript" src="'.htmlEncode($path).'"></script>
 ';
         }
         
@@ -160,7 +166,12 @@ class Application
     
     function addStyle($s, $media='screen,projection')
     {
-        $this->styles[] = array('name'=>$s, 'media'=>$media);
+        $this->styles[$s] = array('name'=>$s, 'media'=>$media);
+    }
+    
+    function removeStyle($s)
+    {
+        unset($this->styles[$s]);
     }
     
     /**

@@ -473,7 +473,7 @@ function makePopup($title, $label, $content, $class= null, $onmouseover=null, $i
         $id = "popup_$popup_id";
     }
     
-    return makeLink("javascript:popupShow(\"$id\");", $label, $class, $onmouseover) ."
+    return makeLink("javascript:popupShow(\"$id\");", $label, $class . " popupbutton", $onmouseover) ."
     <div class='anchor'>
     <div class='popup' id='$id'>
     <div class='popup_title'>
