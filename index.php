@@ -182,7 +182,7 @@ class Application
         global $start_time;
         $stop_time = microtime(true);
         
-        $copyright = "© 2009 Freecode AS";
+        $copyright = "© 2010 Freecode AS";
         $performance = "Page rendered in " . sprintf("%.2f", $stop_time - $start_time + param('redirect_render_time',0.0)) . " seconds. " .(db::$query_count+param('redirect_query_count',0)) . " database queries executed in " . sprintf("%.2f", db::$query_time+param('redirect_query_time',0)) . " seconds.";
         
         echo "<div class='copyright'>\n";
