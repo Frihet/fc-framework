@@ -273,7 +273,7 @@ class Application
         $this->writeFooter();
         ob_end_flush();
 
-        util::printGzippedPage();
+//        util::printGzippedPage();
 
     }
     

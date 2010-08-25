@@ -90,6 +90,7 @@ class form
         if($id === null) {
             $id = $name;
         }
+	$checked = '';
         if($value===true || $value=='1' || $value=='t') {
             $checked = 'checked="yes"';
         }

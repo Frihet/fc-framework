@@ -18,6 +18,13 @@ class util
             return self::$path;
         }
 
+        function array_get($arr, $key, $def)
+        {
+	    if (isset($arr[$key]))
+	        return $arr[$key];
+	    return $def;
+        }
+
         function loadClass($name) 
         {
             
@@ -337,7 +344,7 @@ function makeUrl($v1=null, $v2=null)
 
     $strip = false;
     
-    if($res['controller'] != null) {
+    if(util::array_get($res, 'controller', null) != null) {
         $strip = true;
     }
 
@@ -357,12 +364,12 @@ function makeUrl($v1=null, $v2=null)
     
     $base = util::getPath();
     
-    $controller = $res['controller'];
-    $plugin = $res['plugin'];
-    $id = $res['id'];
-    $date = $res['date'];
-    $task = $res['task'];
-    $user = $res['user'];
+    $controller = util::array_get($res, 'controller', null);
+    $plugin = util::array_get($res, 'plugin', null);
+    $id = util::array_get($res, 'id', null);
+    $date = util::array_get($res, 'date', null);
+    $task = util::array_get($res, 'task', null);
+    $user = util::array_get($res, 'user', null);
     if(util::$path != "") {
 
         if ($plugin !== null) {
