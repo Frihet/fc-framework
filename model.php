@@ -112,6 +112,10 @@ class dbItem
                 if ($p != $key) {
                     if($this->$p === null) {
                         $param_name[] = "$p = null";
+                    } else if($this->$p === false) {
+                        $param_name[] = "$p = false";
+                    } else if($this->$p === true) {
+                        $param_name[] = "$p = true";
                     } else {
                         $nam = ":prop" . $idx;
                         $param_name[] = "$p = $nam";
@@ -136,6 +140,12 @@ class dbItem
                 if($this->$p === null) {
                     $param_def[] = $p;
                     $param_name[] = "null";
+		} else if($this->$p === false) {
+                    $param_def[] = $p;
+                    $param_name[] = "false";
+		} else if($this->$p === true) {
+                    $param_def[] = $p;
+                    $param_name[] = "true";
                 } else {
                     $param_def[] = $p;
                     $nam = ":prop" . $idx;
