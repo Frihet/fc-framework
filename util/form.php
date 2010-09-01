@@ -82,9 +82,16 @@ class form
     {
         $id_str = $id?'id="'.htmlEncode($id).'"':'';
         $class_str = $class?'class="'.htmlEncode($class).'"':'';
-        return "<input $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
+        return "<input type='text' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
     }
     
+    function makePassword($name, $value, $id=null, $class=null) 
+    {
+        $id_str = $id?'id="'.htmlEncode($id).'"':'';
+        $class_str = $class?'class="'.htmlEncode($class).'"':'';
+        return "<input type='password' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
+    }
+
     function makeCheckbox($name, $value, $description, $id=null, $return_value = 'f') 
     {
         if($id === null) {
