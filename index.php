@@ -71,6 +71,12 @@ require_once("common/view.php");
 class Application
 {
 
+    static $copyright = "© 2010 Freecode AS";
+    static $copyright_link = "http://www.freecode.no";
+
+    static $license = "GPL3";
+    static $license_link = "http://www.gnu.org/licenses/gpl-3.0.html";
+
     var $scripts = array("common/static/jquery.js",
                          "common/static/common.js",
                          "common/static/date.js");
@@ -182,12 +188,13 @@ class Application
         global $start_time;
         $stop_time = microtime(true);
         
-        $copyright = "© 2010 Freecode AS";
         $performance = "Page rendered in " . sprintf("%.2f", $stop_time - $start_time + param('redirect_render_time',0.0)) . " seconds. " .(db::$query_count+param('redirect_query_count',0)) . " database queries executed in " . sprintf("%.2f", db::$query_time+param('redirect_query_time',0)) . " seconds.";
         
         echo "<div class='copyright'>\n";
         
-        echo makeLink("http://www.freecode.no", $copyright, 'copyright_inner', $performance);
+        echo makeLink(self::$copyright_link, self::$copyright, 'copyright_inner', $performance);
+	echo ", ";
+        echo makeLink(self::$license_link, "License: " . self::$license, 'copyright_inner', $performance);
         echo "</div>\n";
         
         echo "<script type='text/javascript'>stripe();</script>
