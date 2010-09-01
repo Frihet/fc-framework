@@ -85,7 +85,7 @@ class form
         return "<input $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
     }
     
-    function makeCheckbox($name, $value, $description, $id=null) 
+    function makeCheckbox($name, $value, $description, $id=null, $return_value = 'f') 
     {
         if($id === null) {
             $id = $name;
@@ -96,6 +96,29 @@ class form
         }
         
         return "<input class='checkbox' type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
+    }
+    
+    function makeListCheckbox($name, $value, $checked, $description, $id=null) 
+    {
+        if($id === null) {
+            $id = $name;
+        }
+
+	$id = htmlEncode($id);
+	$name = htmlEncode($name . "[]");
+	$description = htmlEncode($description);
+	$value = htmlEncode($value);
+
+	$checked_html = "";
+        if($checked) {
+            $checked_html = "checked='yes'";
+        }
+	$description_html = "";
+	if ($description) {
+     	     $description_html = "<label for='{$id}'>{$description}</label>";
+	}
+        
+        return "<input type='checkbox' name='{$name}' id='{$id}' value='{$value}' {$checked_html} />{$description_html}";
     }
     
     function makeFile($name, $id=null)
