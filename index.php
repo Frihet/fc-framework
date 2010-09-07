@@ -79,9 +79,13 @@ class Application
 
     var $scripts = array("common/static/jquery.js",
                          "common/static/common.js",
-                         "common/static/date.js");
-    
+                         "common/static/date.js",
+			 "common/static/colorpicker-loader.js",
+			 "common/static/colorpicker/js/colorpicker.js");
+
     var $styles = array('common/static/common.css' => array('name'=>'common/static/common.css', 
+                                                            'media'=>"screen,projection"),
+                        'common/static/colorpicker/css/colorpicker.css' => array('name'=>'common/static/colorpicker/css/colorpicker.css', 
                                                             'media'=>"screen,projection"));
 
     var $use_tiny_mce;

@@ -85,6 +85,14 @@ class form
         return "<input type='text' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
     }
     
+    function makeColorSelector($name, $value, $id=null, $class=null) 
+    {
+        $id_str = $id?'id="'.htmlEncode($id).'"':'';
+	if ($class == null) $class = "";
+        $class_str = 'class="colorpickerinput '.htmlEncode($class).'"';
+        return "<input type='text' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."' style='background-color: ".htmlEncode($value).";' />\n";
+    }
+    
     function makePassword($name, $value, $id=null, $class=null) 
     {
         $id_str = $id?'id="'.htmlEncode($id).'"':'';
