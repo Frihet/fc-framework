@@ -432,7 +432,13 @@ function makeUrl($v1=null, $v2=null)
     foreach($res as $key => $value) 
     {
         if ($value !== null) {
-            $val[] = urlEncode($key) . "=" . urlEncode($value);
+	    if (is_array($value)) {
+	        foreach($value as $value_part) {
+		    $val[] = urlEncode($key."[]") . "=" . urlEncode($value_part);
+		}
+            } else {
+                $val[] = urlEncode($key) . "=" . urlEncode($value);
+	    }
         }
     }
     $str = implode("&", $val);
