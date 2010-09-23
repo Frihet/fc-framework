@@ -18,12 +18,45 @@ class util
             return self::$path;
         }
 
+	function starts_with($haystack,$needle,$case=true) {
+	    if($case){return (strcmp(substr($haystack, 0, strlen($needle)),$needle)===0);}
+	    return (strcasecmp(substr($haystack, 0, strlen($needle)),$needle)===0);
+	}
+
+	function ends_with($haystack,$needle,$case=true) {
+	    if($case){return (strcmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);}
+	    return (strcasecmp(substr($haystack, strlen($haystack) - strlen($needle)),$needle)===0);
+	}
+
         function array_get($arr, $key, $def)
         {
 	    if (isset($arr[$key]))
 	        return $arr[$key];
 	    return $def;
         }
+
+	function colorToHex($r, $g, $b) {
+	    return '#' . str_pad(dechex($r), 2, "0", STR_PAD_LEFT) . str_pad(dechex($g), 2, "0", STR_PAD_LEFT) . str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+	}
+
+	function arrayToSqlIn($col, $arr) {
+	    $sql = 'true';
+	    $params = array();
+	    if ($arr != null && count($arr)) {
+		$varnames = array();
+		$arr[] = $arr[0];
+		$idx = 0;
+		foreach ($arr as $item) {
+		    $varname = str_replace(".", "_", ":__{$col}_{$idx}");
+		    $varnames[] = $varname;
+		    $params[$varname] = $item;
+		    $idx++;
+		}
+		$items = implode(', ', $varnames);
+		$sql = "{$col} in ({$items})";
+	    }
+	    return array($sql, $params);
+	}
 
         function loadClass($name) 
         {

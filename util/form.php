@@ -78,11 +78,17 @@ class form
     }
     
 
-    function makeText($name, $value, $id=null, $class=null) 
+    function makeText($name, $value, $id=null, $class=null, $attributes = array()) 
     {
+        $attr = '';
+        foreach($attributes as $key => $val) {
+            $val = htmlEncode($val);
+            $attr .= "$key='$val' ";
+        }
+
         $id_str = $id?'id="'.htmlEncode($id).'"':'';
         $class_str = $class?'class="'.htmlEncode($class).'"':'';
-        return "<input type='text' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
+        return "<input type='text' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."' {$attr} />\n";		
     }
     
     function makeColorSelector($name, $value, $id=null, $class=null) 
@@ -100,7 +106,7 @@ class form
         return "<input type='password' $id_str $class_str size='16' name='".htmlEncode($name)."' value='".htmlEncode($value)."'/>\n";		
     }
 
-    function makeCheckbox($name, $value, $description, $id=null, $return_value = 'f') 
+    function makeCheckbox($name, $value, $description, $id=null, $return_value = 'f', $attributes=array()) 
     {
         if($id === null) {
             $id = $name;
@@ -110,7 +116,13 @@ class form
             $checked = 'checked="yes"';
         }
         
-        return "<input class='checkbox' type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
+        $attr = '';
+        foreach($attributes as $key => $value) {
+            $val = htmlEncode($value);
+            $attr .= "$key='$val' ";
+        }
+
+        return "<input class='checkbox' type='hidden' name='".htmlEncode($name)."' value='f'><input type='checkbox' name='".htmlEncode($name)."' id='".htmlEncode($id)."' value='t' $checked $attr /><label for='".htmlEncode($id)."'>".htmlEncode($description)."</label>";
     }
     
     function makeListCheckbox($name, $value, $checked, $description, $id=null) 
@@ -155,7 +167,13 @@ class form
 
         $form = "<form accept-charset='utf-8' method='$method' action='$path' $enc>\n";
         foreach($hidden as $name => $value) {
-            $form .= "<input type='hidden' name='".htmlEncode($name)."' value='".htmlEncode($value)."'>\n";
+	    if (is_array($value)) {
+	        foreach ($value as $part) {
+		    $form .= "<input type='hidden' name='".htmlEncode($name)."[]' value='".htmlEncode($part)."'>\n";
+		}
+	    } else {
+	        $form .= "<input type='hidden' name='".htmlEncode($name)."' value='".htmlEncode($value)."'>\n";
+            }
         }
         
         $form .= $content;
