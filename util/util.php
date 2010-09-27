@@ -360,6 +360,23 @@ function messageGet()
     return util::$message_str;
 }
 
+function makeURLParamList($arr, $prefix = '') {
+    $val = array();
+    foreach($arr as $key => $value) {
+        if ($prefix != '') {
+	    $key = "{$prefix}[{$key}]";
+        }
+        if ($value !== null) {
+	    if (is_array($value)) {
+	        $val = array_merge($val, makeURLParamList($value, $key));
+            } else {
+                $val[] = urlEncode($key) . "=" . urlEncode($value);
+	    }
+        }
+    }
+    return $val;
+}
+
 function makeUrl($v1=null, $v2=null) 
 {
     if(is_array($v1)) {
@@ -460,21 +477,7 @@ function makeUrl($v1=null, $v2=null)
         
     }
     
-
-    $val = array();
-    foreach($res as $key => $value) 
-    {
-        if ($value !== null) {
-	    if (is_array($value)) {
-	        foreach($value as $value_part) {
-		    $val[] = urlEncode($key."[]") . "=" . urlEncode($value_part);
-		}
-            } else {
-                $val[] = urlEncode($key) . "=" . urlEncode($value);
-	    }
-        }
-    }
-    $str = implode("&", $val);
+    $str = implode("&", makeURLParamList($res));
     
     if (strlen($str)==0) {
         return $base;
